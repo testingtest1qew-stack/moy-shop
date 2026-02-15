@@ -6,22 +6,55 @@
   <title>Онлайн-магазин — </title>
   <style>
 
-/* Тонкая "линия-подчёркивание" */
-.logo.brand::after{
-  content:"";
-  display:block;
-  height:2px;
-  width: 72%;
-  margin: 10px auto 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(91,140,255,.75),
-    rgba(140,91,255,.65),
-    transparent
-  );
-  opacity:.65;
+<script>
+  const header = document.querySelector("header");
+  const onScroll = () => header && header.classList.toggle("is-sticky", window.scrollY > 10);
+  window.addEventListener("scroll", onScroll, { passive:true });
+  onScroll();
+</script>
+
+header.is-sticky{
+  box-shadow: 0 18px 50px rgba(0,0,0,.45);
+  background: rgba(11,15,25,.85);
 }
+header.is-sticky .logo{ transform: scale(.96); }
+header.is-sticky .btn{ transform: scale(.96); }
+header .logo, header .btn{ transition: transform .2s ease; }
+
+/* высота шапки — подгони число, если надо */
+:root{ --topbar-h: 86px; }
+
+/* если шапка фикс/липкая — делаем отступ сверху */
+body{ padding-top: var(--topbar-h); }
+
+/* чтобы переходы по меню не уезжали под шапку */
+section{ scroll-margin-top: calc(var(--topbar-h) + 14px); }
+
+/* Липкая шапка (всегда сверху) */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  /* красиво при прокрутке */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(11, 15, 25, .55);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* чтобы контент не прилипал к шапке */
+body{ padding-top: 0; } /* оставь так, если всё ок */
+
+/* состояние при прокрутке (когда добавим класс .is-sticky) */
+header.is-sticky{
+  background: rgba(11, 15, 25, .78);
+  box-shadow: 0 18px 50px rgba(0,0,0,.45);
+}
+
+/* чтобы якоря (#catalog и т.д.) не уходили под шапку */
+section{ scroll-margin-top: 90px; }
+
 
 /* Тонкая "линия-подчёркивание" */
 .logo.brand::after{
@@ -154,6 +187,30 @@
   #reviews .card::after{ animation:none; }
 }
 
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  /* сверху — чуть прозрачнее */
+  background: linear-gradient(
+    180deg,
+    rgba(6,10,18,.72),
+    rgba(6,10,18,.45)
+  );
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* при прокрутке — плотнее и с тенью */
+header.is-sticky{
+  background: rgba(6,10,18,.88);
+  border-bottom-color: rgba(255,255,255,.12);
+  box-shadow: 0 18px 55px rgba(0,0,0,.55);
+}
 
     :root { --bg:#0b0f19; --card:#121a2a; --text:#e8eefc; --muted:#aab6d6; --accent:#5b8cff; }
     *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#0b0f19,#0a1222);color:var(--text)}
@@ -323,6 +380,337 @@ body::before{
   0%,100% { opacity:.18; transform: translate(0,0); }
   50%     { opacity:.30; transform: translate(10px,-8px); }
 }
+/* =========================
+   КРАСИВАЯ ШАПКА (COSMIC)
+   ========================= */
+
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  /* стекло */
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+
+  /* глубокий градиент */
+  background:
+    radial-gradient(900px 120px at 10% 0%,
+      rgba(168, 85, 247, .28),
+      rgba(0,0,0,0)
+    ),
+    radial-gradient(900px 120px at 90% 0%,
+      rgba(59, 130, 246, .22),
+      rgba(0,0,0,0)
+    ),
+    linear-gradient(180deg,
+      rgba(7, 10, 18, .86),
+      rgba(7, 10, 18, .52)
+    );
+
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 22px 70px rgba(0,0,0,.55);
+  transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* Внутренние отступы шапки */
+header{
+  padding: 14px 0;
+}
+
+/* тонкая подсветка снизу */
+header::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-1px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0),
+    rgba(91,140,255,.55),
+    rgba(168,85,247,.50),
+    rgba(0,0,0,0)
+  );
+  opacity: .75;
+  pointer-events:none;
+}
+
+/* анимированный “блик” по шапке */
+header::before{
+  content:"";
+  position:absolute;
+  inset:-40px -30%;
+  background: radial-gradient(closest-side,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,0)
+  );
+  transform: translateX(-40%) rotate(-8deg);
+  animation: headerSheen 6s ease-in-out infinite;
+  pointer-events:none;
+  opacity: .9;
+}
+@keyframes headerSheen{
+  0%,100%{ transform: translateX(-40%) rotate(-8deg); opacity:.55; }
+  50%{ transform: translateX(40%) rotate(-8deg); opacity:.95; }
+}
+
+/* При прокрутке — плотнее и компактнее */
+header.is-sticky{
+  background:
+    radial-gradient(900px 120px at 12% 0%,
+      rgba(168, 85, 247, .20),
+      rgba(0,0,0,0)
+    ),
+    radial-gradient(900px 120px at 88% 0%,
+      rgba(59, 130, 246, .16),
+      rgba(0,0,0,0)
+    ),
+    rgba(7,10,18,.92);
+  border-bottom-color: rgba(255,255,255,.14);
+  box-shadow: 0 16px 60px rgba(0,0,0,.60);
+}
+
+/* ЛОГО — “неон” */
+.logo{
+  font-weight: 900;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 18px rgba(91,140,255,.35),
+    0 0 26px rgba(168,85,247,.22);
+  position: relative;
+}
+
+/* Акцентная линия под логотипом */
+.logo::after{
+  content:"";
+  display:block;
+  height:2px;
+  width: 62%;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0),
+    rgba(91,140,255,.85),
+    rgba(168,85,247,.70),
+    rgba(0,0,0,0)
+  );
+  opacity: .75;
+}
+
+/* Меню — подсветка при наведении */
+.nav a{
+  position: relative;
+  padding: 10px 10px;
+  border-radius: 12px;
+  transition: transform .15s ease, background .2s ease, color .2s ease;
+}
+
+.nav a:hover{
+  background: rgba(255,255,255,.06);
+  transform: translateY(-1px);
+}
+
+/* маленькое свечение под пунктом */
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:10px; right:10px; bottom:6px;
+  height:2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0),
+    rgba(91,140,255,.75),
+    rgba(168,85,247,.55),
+    rgba(0,0,0,0)
+  );
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.nav a:hover::after{ opacity:.9; }
+
+/* Кнопка справа — “премиум” */
+header .btn{
+  background: linear-gradient(135deg, rgba(91,140,255,1), rgba(168,85,247,1));
+  color:#071018;
+  box-shadow:
+    0 14px 35px rgba(91,140,255,.22),
+    0 14px 35px rgba(168,85,247,.18);
+  border: 1px solid rgba(255,255,255,.18);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+header .btn:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 18px 45px rgba(91,140,255,.28),
+    0 18px 45px rgba(168,85,247,.22);
+}
+
+/* ОВАЛЬНАЯ ШАПКА (pill) */
+header{
+  /* чтобы была “пилюля”, а не на всю ширину */
+  width: min(1100px, calc(100% - 24px));
+  margin: 12px auto 0;
+
+  /* отступ сверху, т.к. теперь есть margin */
+  top: 12px;
+
+  border-radius: 999px;
+
+  /* внутренние отступы */
+  padding: 10px 18px;
+}
+
+/* чтобы всё внутри выровнялось красиво */
+header .wrap{
+  padding: 0 !important;   /* убираем старые паддинги, если были */
+}
+
+/* тонкая линия по краю + мягче тень */
+header{
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+}
+
+/* если включена “умная шапка” (is-hidden) — пусть прячется нормально */
+header.is-hidden{
+  transform: translateY(-140%);
+}
+/* ===== Блок "сети" вместо баннера ===== */
+.netbox{
+  position: relative;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px dashed rgba(255,255,255,.18);
+  overflow: hidden;
+  background:
+    radial-gradient(700px 140px at 15% 0%, rgba(168,85,247,.18), rgba(0,0,0,0)),
+    radial-gradient(700px 140px at 85% 0%, rgba(59,130,246,.16), rgba(0,0,0,0)),
+    rgba(0,0,0,.10);
+}
+.netbox::before{
+  content:"";
+  position:absolute; inset:-40px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.10) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 40%, rgba(255,255,255,.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,.08) 0 2px, transparent 3px);
+  opacity:.55;
+  animation: netMove 10s linear infinite;
+  pointer-events:none;
+}
+/* ===== Контакты и заказ: красивее ===== */
+#contacts .card{
+  position: relative;
+  overflow: hidden;
+}
+
+#contacts .card::before{
+  content:"";
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(900px 260px at 20% 0%, rgba(168,85,247,.22), transparent 55%),
+    radial-gradient(900px 260px at 85% 10%, rgba(59,130,246,.18), transparent 55%),
+    radial-gradient(800px 220px at 50% 100%, rgba(255,255,255,.06), transparent 60%);
+  filter: blur(0px);
+  pointer-events:none;
+}
+
+#contacts .card > *{ position: relative; }
+
+#contacts b, #contacts strong { letter-spacing:.2px; }
+
+#contacts .card .muted{
+  opacity:.9;
+}
+
+#contacts .card form{
+  margin-top: 12px;
+}
+
+#contacts input, #contacts textarea{
+  background: rgba(0,0,0,.18);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+#contacts input:focus, #contacts textarea:focus{
+  outline: none;
+  border-color: rgba(91,140,255,.55);
+  box-shadow:
+    0 0 0 3px rgba(91,140,255,.16),
+    0 18px 45px rgba(0,0,0,.35);
+}
+
+#contacts textarea{ min-height: 110px; resize: vertical; }
+
+#contacts .btn{
+  border-radius: 999px; /* овал */
+}
+
+#contacts .btn.full{
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+
+.net-top{
+  position: relative;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom: 12px;
+}
+.net-dot{
+  width:8px; height:8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.25);
+}
+.net-dot:nth-child(1){ background: rgba(59,130,246,.55); animation: pulse 1.6s ease-in-out infinite; }
+.net-dot:nth-child(2){ background: rgba(168,85,247,.50); animation: pulse 1.8s ease-in-out infinite; }
+.net-dot:nth-child(3){ background: rgba(255,255,255,.35); animation: pulse 2.0s ease-in-out infinite; }
+@keyframes pulse{
+  0%,100%{ transform: scale(1); opacity:.75; }
+  50%{ transform: scale(1.35); opacity:1; }
+}
+
+.social{
+  position: relative;
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+  margin: 6px 0 10px;
+}
+
+.sbtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 14px;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+.sbtn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.09);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+.sbtn.wa:hover{ border-color: rgba(34,197,94,.30); box-shadow: 0 14px 45px rgba(34,197,94,.18); }
+.sbtn.tg:hover{ border-color: rgba(59,130,246,.30); box-shadow: 0 14px 45px rgba(59,130,246,.20); }
+
+.netbox .mini{
+  position: relative;
+  font-size: 12px;
+  opacity: .9;
+}
 
     .title{font-weight:800}
     .price{font-weight:900}
@@ -354,7 +742,6 @@ body::before{
       </nav>
       <a class="btn" href="#catalog">Смотреть товары</a>
     </header>
-
     <section class="hero">
       <div class="card">
         <div class="kicker">Онлайн-магазин</div>
@@ -370,8 +757,22 @@ body::before{
         <div style="font-size:18px;font-weight:900;margin:6px 0 8px">Скидка 10% на первый заказ</div>
         <div class="muted">Код: FIRST10</div>
         <div style="height:12px"></div>
-        <div class="muted">Вставь сюда фото/баннер</div>
-        <div style="height:150px;border-radius:14px;background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.18)"></div>
+<div class="netbox">
+  <div class="net-top">
+    <div class="net-dot"></div>
+    <div class="net-dot"></div>
+    <div class="net-dot"></div>
+    <div class="muted">Мы онлайн — отвечаем быстро</div>
+  </div>
+
+  <div class="social">
+    <a class="sbtn wa" href="https://wa.me/420777544958" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="sbtn tg" href="https://t.me/Clsoa" target="_blank" rel="noopener">Telegram</a>
+  </div>
+
+  <div class="mini muted">Нажми — откроется чат. Можно оформить заказ в мессенджере.</div>
+</div>
+
       </div>
     </section>
 
@@ -469,35 +870,35 @@ body::before{
     </section>
 
     <section id="contacts" class="section">
-      <h2 class="h2">Контакты и заказ</h2>
-      <div class="grid">
-        <div class="card">
-          <div class="muted">Пиши/звони:</div>
-          <div style="font-weight:900;margin:8px 0">WhatsApp: +420777544958</div>
-          <div style="font-weight:900;margin:8px 0">Telegram: @Clsoa</div>
-          <div class="muted">
-          <div style="height:10px"></div>
-          <a class="btn" href="#">Кнопка на мессенджер</a>
-        </div>
-        <div class="card">
-          <form onsubmit="event.preventDefault(); alert('Заявка отправлена! (дальше подключим отправку в почту/бот)');">
-            <div class="row">
-              <input placeholder="Имя" required>
-              <input placeholder="Телефон / ник в Telegram" required>
-            </div>
-            <div style="height:10px"></div>
-            <textarea placeholder="Что хотите заказать? (товар, размер, цвет, количество)" rows="4" required></textarea>
-            <div style="height:10px"></div>
-            <button class="btn" type="submit">Оформить заявку</button>
-          </form>
-        </div>
-      </div>
-    </section>
+      <section id="contacts" class="section">
+  <h2>Контакты и заказ</h2>
+
+  <div class="card">
+    <div class="muted">Оформить заказ — заполни форму, и я отвечу быстро</div>
+
+    <div style="margin-top:12px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.10)">
+      <iframe
+        src="https://form.jotform.com/260453587866067"
+        width="100%"
+        height="720"
+        frameborder="0"
+        style="border:0;display:block"
+        allow="geolocation; microphone; camera"
+      ></iframe>
+    </div>
+  </div>
+</section>
 
     <footer>
       © <span id="y"></span> . Все права защищены.
     </footer>
   </div>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</body>
+</body><script>
+  const header = document.querySelector("header");
+  const onScroll = () => header && header.classList.toggle("is-sticky", window.scrollY > 10);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+</script>
+
 </html>
