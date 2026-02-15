@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Онлайн-магазин — </title>
+  <style>
+
+/* Тонкая "линия-подчёркивание" */
+.logo.brand::after{
+  content:"";
+  display:block;
+  height:2px;
+  width: 72%;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(91,140,255,.75),
+    rgba(140,91,255,.65),
+    transparent
+  );
+  opacity:.65;
+}
+
+/* Тонкая "линия-подчёркивание" */
+.logo.brand::after{
+  content:"";
+  display:block;
+  height:2px;
+  width: 72%;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(91,140,255,.75),
+    rgba(140,91,255,.65),
+    transparent
+  );
+  opacity:.65;
+}
+
+/* Лёгкая анимация "дышит" */
+.logo.brand{
+  animation: brandPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes brandPulse{
+  0%,100% { filter: drop-shadow(0 6px 22px rgba(91,140,255,.20)) drop-shadow(0 2px 10px rgba(140,91,255,.16)); }
+  50%     { filter: drop-shadow(0 10px 30px rgba(91,140,255,.28)) drop-shadow(0 4px 16px rgba(255,91,191,.14)); }
+}
+
+/* Если у человека выключены анимации */
+@media (prefers-reduced-motion: reduce){
+  .logo.brand{ animation:none; }
+}
+
+/* Лёгкая анимация "дышит" */
+.logo.brand{
+  animation: brandPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes brandPulse{
+  0%,100% { filter: drop-shadow(0 6px 22px rgba(91,140,255,.20)) drop-shadow(0 2px 10px rgba(140,91,255,.16)); }
+  50%     { filter: drop-shadow(0 10px 30px rgba(91,140,255,.28)) drop-shadow(0 4px 16px rgba(255,91,191,.14)); }
+}
+
+/* Если у человека выключены анимации */
+@media (prefers-reduced-motion: reduce){
+  .logo.brand{ animation:none; }
+}
+
+@keyframes promoFloat{
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+
+@keyframes promoShine{
+  0%   { opacity:0; transform: translateX(-55%) rotate(8deg); }
+  20%  { opacity:.45; }
+  50%  { opacity:.0; transform: translateX(55%)  rotate(8deg); }
+  100% { opacity:0; transform: translateX(55%)  rotate(8deg); }
+}
+
+@keyframes promoGlow{
+  0%,100% { opacity:.28; }
+  50%     { opacity:.48; }
+}
+
+/* Если у человека выключены анимации в системе */
+@media (prefers-reduced-motion: reduce){
+  .card.promo{ animation:none; }
+  .card.promo::before, .card.promo::after{ animation:none; }
+ } /* ====== ЗОЛОТОЕ СВЕЧЕНИЕ ТОЛЬКО ДЛЯ ОТЗЫВОВ ====== */
+#reviews .card{
+  position: relative;
+  overflow: hidden;
+}
+
+/* светящаяся золотая рамка */
+#reviews .card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:18px;
+  padding:2px;
+  background: linear-gradient(120deg,
+    rgba(255,215,120,0),
+    rgba(255,215,120,.85),
+    rgba(255,170,60,.65),
+    rgba(255,215,120,.85),
+    rgba(255,215,120,0)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity:.55;
+  filter: blur(7px);
+  animation: goldGlow 2.8s ease-in-out infinite;
+  pointer-events:none;
+}
+
+/* блик, который пробегает */
+#reviews .card::after{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  background: linear-gradient(120deg,
+    transparent 40%,
+    rgba(255,215,120,.16) 50%,
+    transparent 60%
+  );
+  transform: translateX(-60%) rotate(10deg);
+  opacity:0;
+  animation: goldShine 4.5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes goldGlow{
+  0%,100% { opacity:.30; filter: blur(7px); }
+  50%     { opacity:.80; filter: blur(10px); }
+}
+
+@keyframes goldShine{
+  0%   { opacity:0; transform: translateX(-60%) rotate(10deg); }
+  20%  { opacity:.55; }
+  50%  { opacity:0; transform: translateX(60%) rotate(10deg); }
+  100% { opacity:0; transform: translateX(60%) rotate(10deg); }
+}
+
+/* если у человека выключены анимации */
+@media (prefers-reduced-motion: reduce){
+  #reviews .card::before,
+  #reviews .card::after{ animation:none; }
+}
+
+
+    :root { --bg:#0b0f19; --card:#121a2a; --text:#e8eefc; --muted:#aab6d6; --accent:#5b8cff; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#0b0f19,#0a1222);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{font-weight:800;letter-spacing:.4px}
+    .nav{display:flex;gap:14px;color:var(--muted);font-size:14px}
+    .btn{display:inline-block;background:var(--accent);color:#081227;padding:12px 16px;border-radius:14px;font-weight:700}
+    .btn.out{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.18)}
+    .hero{padding:54px 0 24px;display:grid;grid-template-columns:1.3fr .7fr;gap:18px;align-items:center}
+    .h1{font-size:42px;line-height:1.06;margin:0 0 10px;font-weight:900}
+    .p{color:var(--muted);margin:0 0 18px;font-size:16px;line-height:1.5}
+    .card{background:rgba(18,26,42,.78);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:16px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .product{display:flex;flex-direction:column;gap:8px}
+ .ph{
+  height:170px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  position:relative;
+  overflow:hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+
+  /* Космический фон: туманность + полосы */
+  background:
+    radial-gradient(120px 90px at 20% 25%, rgba(140, 91, 255, .35), transparent 60%),
+    radial-gradient(160px 120px at 75% 40%, rgba(91, 140, 255, .28), transparent 65%),
+    radial-gradient(140px 110px at 55% 85%, rgba(255, 91, 191, .18), transparent 60%),
+    linear-gradient(135deg, rgba(8,12,26,.95), rgba(18,22,46,.85)),
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,.05) 0 12px,
+      rgba(0,0,0,.12) 12px 24px
+    );
+
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 400% 400%;
+  animation: phNebula 12s ease-in-out infinite;
+}
+
+/* Движение туманности + полос */
+@keyframes phNebula{
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0, 0% 0%; filter: saturate(1.1) brightness(1.0); }
+  50%  { background-position: 10px -8px, -12px 10px, 8px 12px, 0 0, 100% 100%; filter: saturate(1.35) brightness(1.05); }
+  100% { background-position: 0 0, 0 0, 0 0, 0 0, 0% 0%; filter: saturate(1.1) brightness(1.0); }
+}
+.ph::after{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.10) 50%, transparent 65%);
+  transform: translateX(-60%) rotate(8deg);
+  opacity:0;
+  transition: opacity .25s ease;
+  pointer-events:none;
+}
+
+.card:hover .ph::after{
+  opacity:1;
+  animation: phShine 1.2s ease-out;
+}
+
+@keyframes phShine{
+  0%   { transform: translateX(-60%) rotate(8deg); }
+  100% { transform: translateX(60%) rotate(8deg); }
+}
+/* ====== Красивее фон карточек (описание) ====== */
+.card{
+  background:
+    radial-gradient(900px 280px at 20% 0%, rgba(140,91,255,.10), transparent 60%),
+    radial-gradient(700px 260px at 90% 30%, rgba(91,140,255,.10), transparent 55%),
+    linear-gradient(180deg, rgba(18,26,42,.82), rgba(10,14,28,.78));
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+/* Аккуратный "блик" по краю */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  pointer-events:none;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,.10),
+    transparent 35%,
+    transparent 70%,
+    rgba(91,140,255,.08)
+  );
+  opacity:.55;
+}
+
+/* Ховер: чуть поднимается и светится */
+.card:hover{
+  transform: translateY(-3px);
+  border-color: rgba(91,140,255,.22);
+  box-shadow:
+    0 26px 80px rgba(0,0,0,.42),
+    0 0 0 1px rgba(91,140,255,.10),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Текст/типографика внутри карточки */
+.title{
+  letter-spacing: .2px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+
+.muted{
+  color: rgba(170,190,214,.88);
+}
+
+/* Цена — чуть ярче */
+.price{
+  color: rgba(235,240,255,.98);
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+
+/* Кнопка — более "премиум" */
+.btn{
+  background: linear-gradient(135deg, rgba(91,140,255,.95), rgba(140,91,255,.75));
+  color:#071126;
+  box-shadow: 0 10px 24px rgba(91,140,255,.18);
+  border: 0;
+}
+.btn.out{
+  background: transparent;
+  color: rgba(235,240,255,.92);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: none;
+}
+.btn.out:hover{
+  border-color: rgba(91,140,255,.28);
+  background: rgba(91,140,255,.08);
+}
+ body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+
+  /* Красивый космический фон */
+  background:
+    radial-gradient(900px 520px at 15% 10%, rgba(140, 91, 255, .22), transparent 60%),
+    radial-gradient(800px 520px at 85% 20%, rgba(91, 140, 255, .20), transparent 60%),
+    radial-gradient(700px 520px at 55% 85%, rgba(255, 91, 191, .12), transparent 60%),
+    radial-gradient(1200px 900px at 50% 50%, rgba(0,0,0,.35), transparent 55%),
+    linear-gradient(180deg, #070a14 0%, #0a1022 40%, #070a14 100%);
+  background-attachment: fixed;
+}
+/* Виньетка по краям экрана */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background: radial-gradient(circle at 50% 35%, transparent 0 55%, rgba(0,0,0,.55) 85%);
+  opacity:.9;
+  z-index:-1;
+}
+
+@keyframes promoStars{
+  0%,100% { opacity:.18; transform: translate(0,0); }
+  50%     { opacity:.30; transform: translate(10px,-8px); }
+}
+
+    .title{font-weight:800}
+    .price{font-weight:900}
+    .muted{color:var(--muted);font-size:13px}
+    .kicker{color:rgba(91,140,255,.95);font-weight:800;letter-spacing:.3px}
+    .section{padding:22px 0}
+    .h2{margin:0 0 12px;font-size:24px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .feature b{display:block;margin-bottom:6px}
+    footer{padding:28px 0;color:var(--muted);font-size:13px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    input,textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.18);color:var(--text)}
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .grid,.features{grid-template-columns:1fr}
+      .h1{font-size:34px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">MOY SHOP</div>
+      <nav class="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a class="btn" href="#catalog">Смотреть товары</a>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <div class="kicker">Онлайн-магазин</div>
+        <h1 class="h1">Товары, которые хочется заказать ещё раз</h1>
+        <p class="p">Быстрая отправка 24–48 часов • Удобная оплата • Поддержка в чате</p>
+        <div class="row">
+          <a class="btn" href="#contacts">Заказать в мессенджер</a>
+          <a class="btn out" href="#delivery">Условия доставки</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="muted">Акция недели</div>
+        <div style="font-size:18px;font-weight:900;margin:6px 0 8px">Скидка 10% на первый заказ</div>
+        <div class="muted">Код: FIRST10</div>
+        <div style="height:12px"></div>
+        <div class="muted">Вставь сюда фото/баннер</div>
+        <div style="height:150px;border-radius:14px;background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.18)"></div>
+      </div>
+    </section>
+
+    <section id="catalog" class="section">
+      <h2 class="h2">Хиты продаж</h2>
+      <div class="grid">
+      <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Плюшевый Миньон (Stuart / Miniso)</div>
+  <div class="muted">Мягкая игрушка-миньон в джинсовом комбинезоне — подарок и коллекция</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">399 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+  </div>
+</div>            
+ <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Плюшевая инопланетная кукла (монстрик)</div>
+  <div class="muted">Мягкая игрушка в стиле фантастики, большие глаза и “зубки” — декор/подарок</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">152 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+  </div>
+</div> 
+ <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Плюшевая акула (подушка-игрушка)</div>
+  <div class="muted">Мягкая акула для сна и обнимашек, 2 размера: 40 см или 60 см</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">229 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+  </div>
+</div> 
+ <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Плюшевая розовая свинка (мягкая игрушка)</div>
+  <div class="muted">Пушистая свинка с румянцем, круглая форма — для обнимашек и декора комнаты</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">349 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+  </div>
+</div>
+ <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Длинная плюшевая подушка-капибара (90 см)</div>
+  <div class="muted">Большая мягкая подушка-игрушка для сна и обнимашек, уютный декор, отличный подарок</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">549 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+  </div>
+</div>
+ <div class="card product">
+  <div class="ph"></div>
+  <div class="title">Кружка “Утёнок” (жёлтая)</div>
+  <div class="muted">Милая кружка с ручкой для кофе/чая, дизайн “утёнок”</div>
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <div class="price">100 Kč</div>
+    <a class="btn out" href="#contacts">Заказать</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="h2">Почему выбирают нас</h2>
+      <div class="features">
+        <div class="card feature"><b>Быстрая отправка</b><div class="muted">Собираем и отправляем в течение 24–48 часов</div></div>
+        <div class="card feature"><b>Проверенное качество</b><div class="muted">Только товары, которые сами бы купили</div></div>
+        <div class="card feature"><b>Поддержка</b><div class="muted">Отвечаем в чате и помогаем с выбором</div></div>
+      </div>
+    </section>
+
+    <section id="delivery" class="section">
+      <h2 class="h2">Доставка и оплата</h2>
+      <div class="card">
+        <div class="muted">Доставка:</div>
+        <ul>
+          <li>По городу — 1–2 дня</li>
+          <li>По стране — 2–5 дней</li>
+        </ul>
+        <div class="muted">Оплата:</div>
+        <ul>
+          <li>Картой / переводом / при получении (укажи своё)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="reviews" class="section">
+      <h2 class="h2">Отзывы</h2>
+      <div class="grid">
+        <div class="card"><b>Мария</b><div class="muted">«Очень быстро пришло, качество супер»</div></div>
+        <div class="card"><b>Анна</b><div class="muted">«Спасибо за помощь с выбором!»</div></div>
+        <div class="card"><b>Ирина</b><div class="muted">«Закажу ещё, всё отлично»</div></div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section">
+      <h2 class="h2">Контакты и заказ</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="muted">Пиши/звони:</div>
+          <div style="font-weight:900;margin:8px 0">WhatsApp: +420777544958</div>
+          <div style="font-weight:900;margin:8px 0">Telegram: @Clsoa</div>
+          <div class="muted">
+          <div style="height:10px"></div>
+          <a class="btn" href="#">Кнопка на мессенджер</a>
+        </div>
+        <div class="card">
+          <form onsubmit="event.preventDefault(); alert('Заявка отправлена! (дальше подключим отправку в почту/бот)');">
+            <div class="row">
+              <input placeholder="Имя" required>
+              <input placeholder="Телефон / ник в Telegram" required>
+            </div>
+            <div style="height:10px"></div>
+            <textarea placeholder="Что хотите заказать? (товар, размер, цвет, количество)" rows="4" required></textarea>
+            <div style="height:10px"></div>
+            <button class="btn" type="submit">Оформить заявку</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="y"></span> . Все права защищены.
+    </footer>
+  </div>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
